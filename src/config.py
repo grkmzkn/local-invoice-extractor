@@ -18,7 +18,7 @@ OLLAMA_BASE_URL = "http://localhost:11434"
 OLLAMA_MODEL = "qwen2.5:3b"  # Changeable: qwen2.5, gemma2, etc.
 
 # OCR settings
-TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"  # Windows path
+TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 TESSERACT_LANG = "tur+eng"  # Turkish + English
 
 # Invoice extraction fields
