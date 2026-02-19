@@ -3,6 +3,7 @@ Invoice Processing Module - Main pipeline combining OCR and LLM
 """
 import json
 import sys
+import time
 from pathlib import Path
 from typing import Dict, Any
 from datetime import datetime
@@ -48,6 +49,9 @@ class InvoiceProcessor:
         file_path = Path(file_path)
         print(f"Processing invoice: {file_path.name}")
         
+        # Start timing
+        start_time = time.time()
+        
         try:
             # Step 1: Text extraction with OCR
             print("Step 1/3: Text extraction...")
@@ -62,9 +66,14 @@ class InvoiceProcessor:
             
             # Step 3: Prepare results
             print("Step 3/3: Preparing results...")
+            
+            # Calculate processing time
+            processing_time = time.time() - start_time
+            
             result = {
                 "source_file": str(file_path),
                 "processed_at": datetime.now().isoformat(),
+                "processing_time_seconds": round(processing_time, 2),
                 "raw_text": invoice_text,
                 "extracted_data": extracted_data,
                 "validation": {
@@ -78,6 +87,7 @@ class InvoiceProcessor:
                 self._save_result(file_path.stem, result)
             
             print(f"✓ Invoice processed successfully: {file_path.name}")
+            print(f"⏱️  Processing time: {processing_time:.2f} seconds")
             return result
             
         except Exception as e:
@@ -120,6 +130,9 @@ class InvoiceProcessor:
         
         print(f"{len(files)} invoices found")
         
+        # Start batch timing
+        batch_start_time = time.time()
+        
         for i, file in enumerate(files, 1):
             print(f"[{i}/{len(files)}] Processing...")
             try:
@@ -131,6 +144,12 @@ class InvoiceProcessor:
                     "source_file": str(file),
                     "error": str(e)
                 })
+        
+        # Calculate total batch time
+        total_batch_time = time.time() - batch_start_time
+        
+        # Print batch summary
+        print(f"\n⏱️  Total batch processing time: {total_batch_time:.2f} seconds")
         
         return results
 
