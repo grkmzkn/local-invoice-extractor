@@ -1,0 +1,40 @@
+{
+  "source_file": "data\\example-invoice.png",
+  "processed_at": "2026-02-19T21:53:47.826859",
+  "processing_time_seconds": 40.0,
+  "raw_text": "Your Company Inc.\n\n1234 Company St,\nCompany Town, ST 12345\n\nBill To\nCustomer Name\n\n1234 Customer St,\nCustomer Town, ST 12345\n\n@& Upload Logo\n\nINVOICE\n\nInvoice # 0000007\nInvoice date 10-02-2023\nDue date 10-16-2023\n\nAmount\n\n1.00 Replacement of spark plugs 40.00 $40.00\n2.00 Brake pad replacement (front) 40.00 $80.00\n4.00 Wheel alignment 17.50 $70.00\n2.00 Mechanic's rate per hour 30.00 $60.00\nSubtotal $250.00\n\nSales Tax (5%) $12.50\n\nTotal (USD) $262.50\n\nTerms and Conditions\nPayment is due in 14 days\n\nPlease make checks payable to: Your Company Inc.",
+  "extracted_data": {
+    "invoice_number": "0000007",
+    "date": "2023-10-02",
+    "company_name": "Your Company Inc.",
+    "tax_number": null,
+    "total_amount": 262.5,
+    "vat": 12.5,
+    "items": [
+      {
+        "name": "Replacement of spark plugs",
+        "quantity": 1,
+        "unit_price": 40
+      },
+      {
+        "name": "Brake pad replacement (front)",
+        "quantity": 1,
+        "unit_price": 80
+      },
+      {
+        "name": "Wheel alignment",
+        "quantity": 1,
+        "unit_price": 70
+      },
+      {
+        "name": "Mechanic's rate per hour",
+        "quantity": 2,
+        "unit_price": 60
+      }
+    ]
+  },
+  "validation": {
+    "is_valid": true,
+    "text_length": 550
+  }
+}
