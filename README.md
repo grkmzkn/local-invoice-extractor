@@ -1,17 +1,17 @@
 # Local Invoice Extractor 🧾
 
-Faturalardan bilgi çıkarımı için **tamamen yerel** çalışan, gizlilik odaklı Python uygulaması. Ollama ile yerel LLM kullanarak fatura verileriniz hiçbir zaman dışarıya çıkmaz.
+A **completely local** privacy-focused Python application for extracting information from invoices. Using local LLM with Ollama ensures your invoice data never leaves your computer.
 
-## ✨ Özellikler
+## ✨ Features
 
-- 🔒 **%100 Yerel**: Tüm işlemler bilgisayarınızda yapılır
-- 📄 **PDF & Görüntü Desteği**: PDF, PNG, JPG, TIFF formatları
-- 🤖 **Yerel LLM**: Ollama ile güçlü AI analizi
-- 🇹🇷 **Türkçe Desteği**: OCR ve LLM için tam Türkçe desteği
-- 📊 **Yapılandırılmış Çıktı**: JSON formatında düzenli veri
-- 🔄 **Toplu İşlem**: Birden fazla faturayı tek seferde işleme
+- 🔒 **100% Local**: All processing happens on your computer
+- 📄 **PDF & Image Support**: PDF, PNG, JPG, JPEG, TIFF, BMP formats
+- 🤖 **Local LLM**: Powerful AI analysis with Ollama
+- 🌍 **Multi-language Support**: OCR and LLM support for Turkish and English
+- 📊 **Structured Output**: Organized data in JSON format
+- 🔄 **Batch Processing**: Process multiple invoices at once
 
-## 📋 Ön Gereksinimler
+## 📋 Prerequisites
 
 ### 1. Python 3.8+
 ```bash
@@ -19,38 +19,33 @@ python --version
 ```
 
 ### 2. Tesseract OCR
-**Windows için:**
-- [Tesseract Installer](https://github.com/UB-Mannheim/tesseract/wiki) adresinden indirin
-- Kurulum sırasında "Additional language data" bölümünden **Turkish** seçin
-- Varsayılan yol: `C:\Program Files\Tesseract-OCR\tesseract.exe`
-
-**Linux için:**
-```bash
-sudo apt-get install tesseract-ocr tesseract-ocr-tur
-```
+**For Windows:**
+- Download from [Tesseract Installer](https://github.com/UB-Mannheim/tesseract/wiki)
+- During installation, select **Turkish** (and other languages) from "Additional language data"
+- Default path: `C:\Program Files\Tesseract-OCR\tesseract.exe`
 
 ### 3. Ollama
-**Windows için:**
-- [Ollama.ai](https://ollama.ai) adresinden indirin ve kurun
-- Terminal'de şu komutu çalıştırın:
+**For Windows:**
+- Download and install from [Ollama.ai](https://ollama.ai)
+- Run the following command in terminal:
 ```bash
-ollama pull llama3.2:3b
+ollama pull qwen2.5:3b
 ```
 
-Daha iyi performans için alternatif modeller:
+Alternative models for better performance:
 ```bash
-ollama pull qwen2.5:3b    # Türkçe için önerilir
-ollama pull gemma2:2b     # Daha hızlı
+ollama pull llama3.2:3b    # Good general purpose
+ollama pull gemma2:2b      # Faster processing
 ```
 
-## 🚀 Kurulum
+## 🚀 Installation
 
-### 1. Projeyi klonlayın
+### 1. Navigate to the project directory
 ```bash
-cd c:\Users\gorkemozkan\Desktop\gorkDrive\local-invoice-extractor
+cd local-invoice-extractor
 ```
 
-### 2. Virtual environment oluşturun (opsiyonel ama önerilir)
+### 2. Create a virtual environment (optional but recommended)
 ```bash
 # Windows
 python -m venv env
@@ -61,158 +56,137 @@ python3 -m venv env
 source env/bin/activate
 ```
 
-### 3. Bağımlılıkları yükleyin
+### 3. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Konfigürasyonu ayarlayın
-[src/config.py](src/config.py) dosyasını açın ve gerekirse düzenleyin:
-- `TESSERACT_PATH`: Tesseract kurulum yolu
-- `OLLAMA_MODEL`: Kullanmak istediğiniz model
-- `INVOICE_FIELDS`: Çıkarılacak fatura alanları
+### 4. Configure settings
+Open [src/config.py](src/config.py) and edit if necessary:
+- `TESSERACT_PATH`: Path to Tesseract installation
+- `OLLAMA_MODEL`: Model you want to use
+- `INVOICE_FIELDS`: Fields to extract from invoices
 
-## 📖 Kullanım
-
-### Tek Fatura İşleme
-```bash
-python main.py data/fatura.pdf
-```
-
-### Toplu İşlem (Klasördeki tüm faturalar)
-```bash
-python main.py --batch data/
-```
-
-### Detaylı Loglama
-```bash
-python main.py -v data/fatura.pdf
-```
-
-### Sonucu kaydetmeden görüntüleme
-```bash
-python main.py --no-save data/fatura.pdf
-```
-
-## 📁 Proje Yapısı
+## 📁 Project Structure
 
 ```
 local-invoice-extractor/
 ├── src/
-│   ├── __init__.py
-│   ├── config.py              # Ayarlar
-│   ├── ocr_module.py          # PDF/Görüntü → Metin
-│   ├── llm_module.py          # Ollama LLM işlemleri
-│   └── invoice_processor.py   # Ana işlem pipeline
-├── data/                       # Fatura dosyalarınız (PDF/görüntü)
-├── output/                     # Çıktı JSON dosyaları
+│   ├── config.py              # Configuration settings
+│   ├── ocr_module.py          # PDF/Image → Text extraction
+│   ├── llm_module.py          # Ollama LLM operations
+│   └── invoice_processor.py   # Main processing pipeline
+├── data/                       # Your invoice files (PDF/images)
+├── output/                     # Output JSON files
 ├── env/                        # Virtual environment
-├── main.py                     # Ana çalıştırıcı
-├── requirements.txt
+├── main.py                     # Main entry point
+├── requirements.txt            # Project dependencies
 └── README.md
 ```
 
-## 🔍 Çıkarılan Bilgiler
+## 🔍 Extracted Information
 
-Varsayılan olarak şu bilgiler çıkarılır:
-- Fatura numarası
-- Fatura tarihi
-- Firma adı
-- Vergi numarası
-- Toplam tutar
-- KDV tutarı
-- Ürün/hizmet listesi (ad, miktar, birim fiyat)
+By default, the following information is extracted:
+- Invoice number
+- Invoice date
+- Company name
+- Tax identification number
+- Total amount
+- VAT/Tax amount
+- Product/service list (name, quantity, unit price)
 
-[src/config.py](src/config.py) dosyasından `INVOICE_FIELDS` değişkenini düzenleyerek özelleştirebilirsiniz.
+You can customize the fields by editing the `INVOICE_FIELDS` variable in [src/config.py](src/config.py).
 
-## 📊 Örnek Çıktı
+## 📊 Sample Output
 
 ```json
 {
-  "fatura_no": "FTR-2024-12345",
-  "tarih": "2024-01-15",
-  "firma_adi": "ABC Teknoloji A.Ş.",
-  "vergi_no": "9876543210",
-  "toplam_tutar": 36875.00,
-  "kdv": 5625.00,
-  "urunler": [
-    {"ad": "Laptop", "miktar": 2, "birim_fiyat": 15000.00},
-    {"ad": "Mouse", "miktar": 5, "birim_fiyat": 250.00}
-  ]
+  "source_file": "data\\example_invoice.png",
+  "processed_at": "2026-02-17T22:58:30.002076",
+  "extracted_data": {
+    "invoice_number": "0000007",
+    "date": "2023-10-02",
+    "company_name": "Your Company Inc.",
+    "tax_number": null,
+    "total_amount": 262.50,
+    "vat": 12.50,
+    "items": [
+      {
+        "name": "Replacement of spark plugs",
+        "quantity": 1,
+        "unit_price": 40.00
+      },
+      {
+        "name": "Brake pad replacement (front)",
+        "quantity": 2,
+        "unit_price": 40.00
+      }
+    ]
+  },
+  "validation": {
+    "is_valid": true,
+    "text_length": 550
+  }
 }
 ```
 
-## 🛠️ Geliştirme
+## 🛠️ Development
 
-### Modüler Yapı
-Her modül bağımsız çalışabilir:
-
-```python
-# OCR modülünü test et
-from src.ocr_module import OCRProcessor
-ocr = OCRProcessor()
-text = ocr.extract_text("fatura.pdf")
-
-# LLM modülünü test et
-from src.llm_module import LLMProcessor
-llm = LLMProcessor()
-result = llm.extract_invoice_data(text)
-```
-
-### Yeni Model Ekleme
+### Adding a New Model
 ```python
 # src/config.py
-OLLAMA_MODEL = "qwen2.5:7b"  # Daha güçlü model
+OLLAMA_MODEL = "qwen2.5:7b"  # More powerful model
 ```
 
-### Yeni Alan Ekleme
+### Adding Custom Fields
 ```python
 # src/config.py
 INVOICE_FIELDS = {
-    "fatura_no": "Fatura numarası",
-    "iban": "IBAN numarası",  # Yeni alan
-    # ... diğer alanlar
+    "invoice_number": "Invoice number",
+    "iban": "IBAN number",  # New field
+    # ... other fields
 }
 ```
 
-## 🐛 Sorun Giderme
+## 🐛 Troubleshooting
 
-### "Ollama bağlantı hatası"
+### "Ollama connection error"
 ```bash
-# Ollama'yı başlatın
+# Start Ollama service
 ollama serve
 ```
 
-### "Model bulunamadı"
+### "Model not found"
 ```bash
-# Modeli indirin
-ollama pull llama3.2:3b
+# Download the model
+ollama pull qwen2.5:3b
 ```
 
-### "Tesseract bulunamadı"
-- [src/config.py](src/config.py) dosyasında `TESSERACT_PATH` yolunu kontrol edin
-- Tesseract'ın doğru kurulu olduğundan emin olun
+### "Tesseract not found"
+- Check the `TESSERACT_PATH` in [src/config.py](src/config.py)
+- Ensure Tesseract is correctly installed
 
-### "OCR sonucu boş"
-- Görüntü kalitesini kontrol edin
-- Türkçe dil paketi kurulu mu: `tesseract --list-langs`
+### "Empty OCR result"
+- Check image quality
+- Verify language pack is installed: `tesseract --list-langs`
+- Make sure Turkish and English are listed
 
-## 📝 Lisans
+### "Insufficient text extracted"
+- Ensure the invoice file is readable
+- Try improving image quality/resolution
+- Check if the file is not corrupted
 
-Bu proje MIT lisansı altında lisanslanmıştır.
+## 💡 Tips
 
-## 🤝 Katkıda Bulunma
+- **Better accuracy**: Use higher quality PDF or image files
+- **Faster processing**: Use smaller models like `gemma2:2b`
+- **Better Turkish support**: Use `qwen2.5:3b` model
+- **Custom fields**: Edit `INVOICE_FIELDS` in config to extract specific information
 
-1. Fork yapın
-2. Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
-3. Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
-4. Branch'e push yapın (`git push origin feature/amazing-feature`)
-5. Pull Request açın
+## 📝 License
 
-## 📧 İletişim
-
-Sorularınız için issue açabilirsiniz.
+This project is licensed under the MIT License.
 
 ---
 
-**Not**: Bu proje tamamen yerel çalışır. Hiçbir veri internete gönderilmez! 🔒
+**Note**: This project runs completely offline. No data is sent to the internet! 🔒
