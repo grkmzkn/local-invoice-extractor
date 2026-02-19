@@ -14,14 +14,13 @@ from src.config import OUTPUT_DIR
 # ========================================
 
 # Set your invoice file or folder path here
-INVOICE_PATH = "data/example_invoice.png"  # Change this to your file/folder path
+INVOICE_PATH = "data/"
 
 # ========================================
 
 
 def main():
     """Main function."""
-    # Banner
     print("="*60)
     print("🧾 Local Invoice Extractor v0.1.0")
     print("="*60)
@@ -78,8 +77,6 @@ def main():
         
     except Exception as e:
         print(f"\n❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
         return 1
 
 
